@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/FlowrSpotPovio/v16
+/bin/Debug/net5.0
+/.vs/FlowrSpotPovio/config
+/obj
+/appsettings.Development.json
+/appsettings.json
