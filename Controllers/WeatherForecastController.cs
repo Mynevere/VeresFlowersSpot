@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace FlowrSpotPovio.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class WeatherForecastController : BaseApiController
     {
         private static readonly string[] Summaries = new[]
