@@ -41,6 +41,7 @@ namespace FlowrSpotPovio.Context
                 entity.Property(s => s.Longitude).HasColumnType("Decimal(9,6)");
                 entity.Property(s => s.Latitude).HasColumnType("Decimal(8,6)");
                 entity.Property(s => s.Image).HasMaxLength(1000);
+                entity.Property(s => s.Question).HasMaxLength(2000);
             });
 
             modelBuilder.Entity<Sighting>()
