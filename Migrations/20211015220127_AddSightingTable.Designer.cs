@@ -3,14 +3,16 @@ using System;
 using FlowrSpotPovio.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FlowrSpotPovio.Migrations
 {
     [DbContext(typeof(FlowrSpotPovioContext))]
-    partial class FlowrSpotPovioContextModelSnapshot : ModelSnapshot
+    [Migration("20211015220127_AddSightingTable")]
+    partial class AddSightingTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,28 +43,6 @@ namespace FlowrSpotPovio.Migrations
                         .HasName("PK_Flowers_Id");
 
                     b.ToTable("Flowers");
-                });
-
-            modelBuilder.Entity("FlowrSpotPovio.Models.Like", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("SightingId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id")
-                        .HasName("PK_Like_Id");
-
-                    b.HasIndex("SightingId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("FlowrSpotPovio.Models.Sighting", b =>
@@ -147,25 +127,6 @@ namespace FlowrSpotPovio.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("FlowrSpotPovio.Models.Like", b =>
-                {
-                    b.HasOne("FlowrSpotPovio.Models.Sighting", "Sighting")
-                        .WithMany()
-                        .HasForeignKey("SightingId")
-                        .HasConstraintName("FK_Like_SightingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FlowrSpotPovio.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("FK_Like_UserId");
-
-                    b.Navigation("Sighting");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FlowrSpotPovio.Models.Sighting", b =>
