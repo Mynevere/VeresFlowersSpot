@@ -1,5 +1,8 @@
 using FlowrSpotPovio.Context;
+using FlowrSpotPovio.Helpers.Security;
+using FlowrSpotPovio.Interfaces;
 using FlowrSpotPovio.Models;
+using FlowrSpotPovio.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -96,6 +99,8 @@ namespace FlowrSpotPovio
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
             identityBuilder.AddEntityFrameworkStores<FlowrSpotPovioContext>();
             identityBuilder.AddSignInManager<SignInManager<User>>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
