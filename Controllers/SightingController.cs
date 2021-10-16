@@ -1,11 +1,13 @@
 ﻿using FlowrSpotPovio.Interfaces;
 using FlowrSpotPovio.Models;
 using FlowrSpotPovio.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace FlowrSpotPovio.Controllers
@@ -26,6 +28,7 @@ namespace FlowrSpotPovio.Controllers
             return Ok(result);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost("createSighting")]
         public async Task<IActionResult> CreateSighting([FromQuery] SightingViewModel sightingViewModel,IFormFile image) 
         {

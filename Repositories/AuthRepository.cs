@@ -100,6 +100,7 @@ namespace FlowrSpotPovio.Repositories
 
             return new UserViewModel
             {
+                Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
                 TokenString = jwtGenerator.CreateToken(user),

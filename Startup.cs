@@ -103,6 +103,7 @@ namespace FlowrSpotPovio
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IFlowerRepository, FlowerRepository>();
             services.AddScoped<ISightingRepository, SightingRepository>();
+            services.AddScoped<ILikeRepository, LikeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
