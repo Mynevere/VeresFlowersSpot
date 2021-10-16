@@ -39,5 +39,23 @@ namespace FlowrSpotPovio.Repositories
             await context.SaveChangesAsync();
             return like;
         }
+
+        public async Task<bool> DestroyLike(Guid likeId)
+        {
+            var currentUser = await authRepository.GetCurrentUser();
+            var like = await context.Likes.FindAsync(likeId);
+
+            if (like.UserId == currentUser.Id)
+            {
+                context.Likes.Remove(like);
+                await context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                throw new RestException(HttpStatusCode.BadRequest, "You can't destory it!");
+            }
+        }
+
     }
 }

@@ -25,5 +25,13 @@ namespace FlowrSpotPovio.Controllers
             var result = await likeRepository.LikeSighting(sightingId);
             return Ok(result);
         }
+
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpPost("destroyLike/{likeId}")]
+        public async Task<IActionResult> DestroyLike(Guid likeId)
+        {
+            var result = await likeRepository.DestroyLike(likeId);
+            return Ok(result);
+        }
     }
 }

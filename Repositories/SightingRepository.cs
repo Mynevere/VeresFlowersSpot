@@ -1,4 +1,5 @@
 ﻿using FlowrSpotPovio.Context;
+using FlowrSpotPovio.Helpers.Errors;
 using FlowrSpotPovio.Interfaces;
 using FlowrSpotPovio.Models;
 using FlowrSpotPovio.ViewModels;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace FlowrSpotPovio.Repositories
@@ -15,9 +17,12 @@ namespace FlowrSpotPovio.Repositories
     public class SightingRepository : ISightingRepository
     {
         private readonly FlowrSpotPovioContext context;
-        public SightingRepository(FlowrSpotPovioContext context)
+        private readonly IAuthRepository authRepository;
+
+        public SightingRepository(FlowrSpotPovioContext context, IAuthRepository authRepository)
         {
             this.context = context;
+            this.authRepository = authRepository;
         }
 
         public async Task<Sighting> CreateSighting(SightingViewModel sightingViewModel, IFormFile image)
@@ -47,6 +52,24 @@ namespace FlowrSpotPovio.Repositories
             var sightings = await context.Sightings.Where(x => x.FlowerId == flowerId).ToListAsync();
             return sightings;
         }
+
+        public async Task<bool> DestroySighting(Guid sightingId)
+        {
+            var currentUser = await authRepository.GetCurrentUser();
+            var sighting = await context.Sightings.FindAsync(sightingId);
+
+            if(sighting.UserId == currentUser.Id)
+            {
+                context.Sightings.Remove(sighting);
+                await context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                throw new RestException(HttpStatusCode.BadRequest, "You can't destory it!");
+            }
+        }
+
 
         public string[] UploadImage(IFormFile file)
         {

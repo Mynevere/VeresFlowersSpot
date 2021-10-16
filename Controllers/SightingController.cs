@@ -35,5 +35,13 @@ namespace FlowrSpotPovio.Controllers
             var result = await sightingRepository.CreateSighting(sightingViewModel, image);
             return Ok(result);
         }
+
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpPost("destroySighting/{sightingId}")]
+        public async Task<IActionResult> DestroySighting(Guid sightingId)
+        {
+            var result = await sightingRepository.DestroySighting(sightingId);
+            return Ok(result);
+        }
     }
 }

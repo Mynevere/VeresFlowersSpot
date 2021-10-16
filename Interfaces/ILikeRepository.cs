@@ -10,5 +10,6 @@ namespace FlowrSpotPovio.Interfaces
     public interface ILikeRepository
     {
         Task<Like> LikeSighting(Guid sightingId);
+        Task<bool> DestroyLike(Guid likeId); 
     }
 }
