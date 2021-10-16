@@ -10,6 +10,6 @@ namespace FlowrSpotPovio.ViewModels
         public decimal Longitude { get; set; }
         public decimal Latitude { get; set; }
         public Guid FlowerId { get; set; }
-        public string UserId { get; set; }
+        public string Question { get; set; }
     }
 }

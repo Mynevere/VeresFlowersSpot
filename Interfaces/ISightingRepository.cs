@@ -13,5 +13,6 @@ namespace FlowrSpotPovio.Interfaces
         Task<List<Sighting>> GetSightingsByFlowerId(Guid flowerId);
         Task<Sighting> CreateSighting(SightingViewModel sightingViewModel, IFormFile image);
         Task<bool> DestroySighting(Guid sightingId);
+        Task<Sighting> UpdateSighting(Guid sightingId);
     }
 }

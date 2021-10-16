@@ -1,5 +1,6 @@
 using FlowrSpotPovio.Context;
 using FlowrSpotPovio.Helpers.Security;
+using FlowrSpotPovio.Helpers.Services;
 using FlowrSpotPovio.Interfaces;
 using FlowrSpotPovio.Models;
 using FlowrSpotPovio.Repositories;
@@ -104,6 +105,7 @@ namespace FlowrSpotPovio
             services.AddScoped<IFlowerRepository, FlowerRepository>();
             services.AddScoped<ISightingRepository, SightingRepository>();
             services.AddScoped<ILikeRepository, LikeRepository>();
+            services.AddScoped<IRandomQuestionService, RandomQuestionService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

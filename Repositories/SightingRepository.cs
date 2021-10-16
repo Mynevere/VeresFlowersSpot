@@ -1,5 +1,6 @@
 ﻿using FlowrSpotPovio.Context;
 using FlowrSpotPovio.Helpers.Errors;
+using FlowrSpotPovio.Helpers.Services;
 using FlowrSpotPovio.Interfaces;
 using FlowrSpotPovio.Models;
 using FlowrSpotPovio.ViewModels;
@@ -18,22 +19,26 @@ namespace FlowrSpotPovio.Repositories
     {
         private readonly FlowrSpotPovioContext context;
         private readonly IAuthRepository authRepository;
+        private readonly IRandomQuestionService randomQuestionService;
 
-        public SightingRepository(FlowrSpotPovioContext context, IAuthRepository authRepository)
+        public SightingRepository(FlowrSpotPovioContext context, IAuthRepository authRepository, IRandomQuestionService randomQuestionService)
         {
             this.context = context;
             this.authRepository = authRepository;
+            this.randomQuestionService = randomQuestionService;
         }
 
         public async Task<Sighting> CreateSighting(SightingViewModel sightingViewModel, IFormFile image)
         {
+            var currentUser = await authRepository.GetCurrentUser();
 
             var sighting = new Sighting
             {
                 Latitude = sightingViewModel.Latitude,
                 Longitude = sightingViewModel.Longitude,
-                UserId = sightingViewModel.UserId,
-                FlowerId = sightingViewModel.FlowerId
+                UserId = currentUser.Id,
+                FlowerId = sightingViewModel.FlowerId,
+                Question = await randomQuestionService.GenerateRandomQuestion()
             };
 
             if (image != null)
@@ -70,6 +75,15 @@ namespace FlowrSpotPovio.Repositories
             }
         }
 
+        public async Task<Sighting> UpdateSighting(Guid sightingId)
+        {
+            var sighting = await context.Sightings.FindAsync(sightingId);
+            sighting.Question = await randomQuestionService.GenerateRandomQuestion();
+
+            context.Sightings.Update(sighting);
+            await context.SaveChangesAsync();
+            return sighting;
+        }
 
         public string[] UploadImage(IFormFile file)
         {
