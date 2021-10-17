@@ -22,19 +22,16 @@ namespace FlowrSpotPovio.Repositories
 {
     public class AuthRepository : IAuthRepository
     {
-        private readonly FlowrSpotPovioContext context;
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
-        private readonly IJwtGenerator jwtGenerator; 
+        private readonly IJwtGenerator jwtGenerator;
         private readonly IHttpContextAccessor httpContextAccessor;
 
-        public AuthRepository(FlowrSpotPovioContext context, 
-                                UserManager<User> userManager, 
+        public AuthRepository(UserManager<User> userManager, 
                                 SignInManager<User> signInManager,
                                 IJwtGenerator jwtGenerator, 
                                 IHttpContextAccessor httpContextAccessor)
         {
-            this.context = context;
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.jwtGenerator = jwtGenerator;
@@ -67,7 +64,7 @@ namespace FlowrSpotPovio.Repositories
 
                 return userViewModel;
             }
-            throw new Exception("Problem creating user");
+            throw new RestException(HttpStatusCode.NotFound, "Problem creating user");
         }
 
         public async Task<UserViewModel> Login(string email, string password) 
@@ -75,7 +72,7 @@ namespace FlowrSpotPovio.Repositories
             var user = await userManager.FindByEmailAsync(email);
 
             if (user == null)
-                throw new RestException(HttpStatusCode.Unauthorized);
+                throw new RestException(HttpStatusCode.BadRequest);
 
             var result = await signInManager
                 .CheckPasswordSignInAsync(user, password, false);
@@ -90,7 +87,7 @@ namespace FlowrSpotPovio.Repositories
                 };
             }
 
-            throw new RestException(HttpStatusCode.Unauthorized);
+            throw new RestException(HttpStatusCode.BadRequest);
         }
 
         public async Task<UserViewModel> GetCurrentUser()

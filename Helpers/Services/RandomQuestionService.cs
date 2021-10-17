@@ -21,7 +21,7 @@ namespace FlowrSpotPovio.Helpers.Services
         public async Task<string> GenerateRandomQuestion()
         {
             string openDbUrl = "https://opentdb.com/api.php?amount=1&category=17";
-            HttpClient client = new HttpClient();
+            HttpClient client = new();
 
             string question = null;
             client.BaseAddress = new Uri(openDbUrl);
